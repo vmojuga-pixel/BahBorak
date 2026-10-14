@@ -26,7 +26,7 @@ export async function handleTenantMe(request, env, session) {
       factory_name,
       country || null,
       industry || null,
-      default_protocol || "modbus",
+      default_protocol || "whatsapp",
       session.tenantId
     ).run();
 

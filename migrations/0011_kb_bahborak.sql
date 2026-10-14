@@ -1,4 +1,4 @@
--- Replace Meridian KB with BahBorak KB
+-- BahBorak knowledge base seed
 DELETE FROM public_kb;
 
 INSERT INTO public_kb (id, topic, question, answer, tags, priority) VALUES

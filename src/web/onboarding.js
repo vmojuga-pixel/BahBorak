@@ -25,12 +25,7 @@ export const ONBOARDING_HTML = `<!DOCTYPE html>
         <div><label class="block text-xs text-neutral-500 mb-1.5">Industry</label>
         <input name="industry" placeholder="e.g. Automotive" class="w-full px-3.5 py-2.5 bg-ink-900 border border-white/10 rounded-lg text-sm outline-none focus:border-white/30"></div>
         <div><label class="block text-xs text-neutral-500 mb-1.5">Default protocol</label>
-        <select name="default_protocol" class="w-full px-3.5 py-2.5 bg-ink-900 border border-white/10 rounded-lg text-sm outline-none focus:border-white/30">
-          <option value="modbus">Modbus</option>
-          <option value="opcua">OPC-UA</option>
-          <option value="profinet">Profinet</option>
-          <option value="serial">Serial</option>
-        </select></div>
+        <input name="whatsapp_number" placeholder="WhatsApp number (e.g. 60123456789)" class="w-full px-3.5 py-2.5 bg-ink-900 border border-white/10 rounded-lg text-sm outline-none focus:border-white/30"></div>
       </div>
     </div>
 
@@ -43,12 +38,7 @@ export const ONBOARDING_HTML = `<!DOCTYPE html>
         <div><label class="block text-xs text-neutral-500 mb-1.5">Model</label>
         <input name="machine_model" class="w-full px-3.5 py-2.5 bg-ink-900 border border-white/10 rounded-lg text-sm outline-none focus:border-white/30"></div>
         <div><label class="block text-xs text-neutral-500 mb-1.5">Protocol</label>
-        <select name="machine_protocol" class="w-full px-3.5 py-2.5 bg-ink-900 border border-white/10 rounded-lg text-sm outline-none focus:border-white/30">
-          <option value="modbus">Modbus</option>
-          <option value="opcua">OPC-UA</option>
-          <option value="profinet">Profinet</option>
-          <option value="serial">Serial</option>
-        </select></div>
+        <input name="business_type" placeholder="Business type (F&B, retail, clinic...)" class="w-full px-3.5 py-2.5 bg-ink-900 border border-white/10 rounded-lg text-sm outline-none focus:border-white/30"></div>
       </div>
     </div>
 

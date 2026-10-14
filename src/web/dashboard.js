@@ -90,7 +90,7 @@ tailwind.config = {
     </div>
   </section>
 
-  <!-- RIGHT: MERI -->
+  <!-- RIGHT: BOT -->
   <aside class="lg:col-span-3 lg:border-l border-white/5 flex flex-col h-[70vh] lg:h-auto lg:overflow-hidden">
     <div class="px-4 py-3 border-b border-white/5 flex items-center gap-2">
       <span class="font-semibold text-sm">Bot</span>

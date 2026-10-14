@@ -2,7 +2,7 @@
 
 ## Risk Category
 
-High-Risk AI System (Annex III) when used in industrial safety contexts.
+Applicable to messaging automation under PDPA (Malaysia).
 
 ## Requirements & Implementation
 

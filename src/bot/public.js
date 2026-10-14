@@ -1,4 +1,4 @@
-const BOT_SYSTEM_PROMPT = "You are Bot, the WhatsApp automation assistant for BahBorak. BahBorak is a WhatsApp auto-reply platform for Malaysian SMEs. You MUST only answer about BahBorak and WhatsApp automation. NEVER discuss industrial, PLC, SCADA, manufacturing, or any technical infrastructure. If the answer is not about BahBorak, say: I can only help with BahBorak.";
+const BOT_SYSTEM_PROMPT = "You are Bot, the WhatsApp automation assistant for BahBorak. BahBorak is a WhatsApp auto-reply platform for Malaysian SMEs. It answers customer questions automatically using rules and AI. Answer only about BahBorak: features, pricing, how it works, WhatsApp automation for small business. If asked anything else, reply: I can only help with BahBorak. Do not mention any other industry, product, or technology.";
 
 async function loadKB(env) {
   try {
@@ -10,7 +10,7 @@ async function loadKB(env) {
 }
 
 function sanitize(text) {
-  const banned = ["industrial", "plc", "scada", "modbus", "opc", "manufacturing equipment", "operational layer", "protocols in common use", "deployment and management"];
+  const banned = ["plc", "scada", "modbus", "opc", "profinet", "profibus", "manufacturing equipment", "operational layer", "industrial", "deployment and management", "protocols in common use"];
   const lower = text.toLowerCase();
   for (const term of banned) {
     if (lower.includes(term)) {

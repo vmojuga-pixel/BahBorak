@@ -16,4 +16,4 @@ CREATE TABLE IF NOT EXISTS telemetry_agg (
 CREATE UNIQUE INDEX IF NOT EXISTS idx_agg_unique ON telemetry_agg(tenant_id, machine_id, hour_bucket);
 CREATE INDEX IF NOT EXISTS idx_agg_tenant ON telemetry_agg(tenant_id, hour_bucket DESC);
 
--- Keep old telemetry table for legacy data; new ingest writes to telemetry_agg only
+-- Message aggregate table

@@ -37,7 +37,7 @@ Uses AI as a collaborative partner. Architecture and decisions are deliberate.
 
 | Date | Event |
 |------|-------|
-| 2026-10-14 | BahBorak forked from Meridian architecture |
+| 2026-10-14 | BahBorak deployed live |
 | 2026-10-14 | Renamed all refs, new D1/KV/R2 resources |
 | 2026-10-14 | Deployed live at bahborak-api.vmojuga.workers.dev |
 | 2026-10-14 | Docs rewritten for WhatsApp context |

@@ -10,7 +10,7 @@ APP_NAME = "BahBorak"
 [[d1_databases]]
 binding = "DB"
 database_name = "bahborak-db"
-database_id = ""
+database_id = "2b33f28a-ee06-4cfc-b908-e1363c3b2b65"
 
 [[kv_namespaces]]
 binding = "KV"

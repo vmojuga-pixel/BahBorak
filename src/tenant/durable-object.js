@@ -85,7 +85,7 @@ export class Tenant {
         a.alerts_count ?? 0, a.commands_count ?? 0
       ).run();
     } else {
-      // Legacy raw ingest: reject or ignore
+      // Only accept aggregates
       return Response.json({ ok: false, error: "Raw ingest disabled. Gateway must send aggregates." }, { status: 400 });
     }
 
