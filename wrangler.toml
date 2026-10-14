@@ -10,11 +10,11 @@ APP_NAME = "BahBorak"
 [[d1_databases]]
 binding = "DB"
 database_name = "bahborak-db"
-database_id = "ffa9d17b-e4a2-48af-af96-25885d919991"
+database_id = ""
 
 [[kv_namespaces]]
 binding = "KV"
-id = "da269b34946d4998a92f466536d34454"
+id = "7eaacef434bb46cfbc71a87ebe7f4c3b"
 
 [[r2_buckets]]
 binding = "AUDIT"
