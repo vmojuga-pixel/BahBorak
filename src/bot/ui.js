@@ -1,4 +1,4 @@
-export const MERI_HTML = `<!DOCTYPE html>
+export const BOT_HTML = `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">

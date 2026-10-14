@@ -3,8 +3,8 @@ import { handleIngest } from "./api/ingest.js";
 import { handleCommands } from "./api/commands.js";
 import { handleDashboard } from "./api/dashboard.js";
 import { handleHealth } from "./api/health.js";
-import { handleMeriChat } from "./bot/chat.js";
-import { handlePublicMeriChat } from "./bot/public.js";
+import { handleBotChat } from "./bot/chat.js";
+import { handlePublicBotChat } from "./bot/public.js";
 import { handleKillSwitch } from "./guardrail/kill-switch.js";
 import { handleSignup, handleLogin, handleLogout, handleVerify, handleMe } from "./api/auth.js";
 import { handleMachinesList, handleMachineCreate, handleMachineDelete } from "./api/machines.js";
@@ -19,7 +19,7 @@ import { requireAuth, requireCSRF, securityHeaders } from "./auth/middleware.js"
 import { LANDING_HTML } from "./web/landing.js";
 import { DASHBOARD_HTML } from "./web/dashboard.js";
 import { SIGNUP_HTML, LOGIN_HTML, VERIFY_HTML } from "./web/auth.js";
-import { MERI_HTML } from "./bot/ui.js";
+import { BOT_HTML } from "./bot/ui.js";
 import { ONBOARDING_HTML } from "./web/onboarding.js";
 
 export { Tenant } from "./tenant/durable-object.js";
@@ -42,7 +42,7 @@ export default {
     }
 
     // --- Public Bot (no auth) ---
-    if (path === "/api/bot/public" && request.method === "POST") return handlePublicMeriChat(request, env);
+    if (path === "/api/bot/public" && request.method === "POST") return handlePublicBotChat(request, env);
 
     // --- Public routes ---
     if (path === "/health") return handleHealth();
@@ -92,7 +92,7 @@ export default {
       }
       return html(DASHBOARD_HTML);
     }
-    if (path === "/bot") return html(MERI_HTML);
+    if (path === "/bot") return html(BOT_HTML);
 
     if (path === "/api/machines" && request.method === "GET") {
       return securityHeaders(await handleMachinesList(request, env, session));
@@ -195,7 +195,7 @@ export default {
       if (path.startsWith("/api/ingest")) return await handleIngest(request, env, tenantId);
       if (path.startsWith("/api/commands")) return await handleCommands(request, env, tenantId);
       if (path.startsWith("/api/dashboard")) return await handleDashboard(request, env, tenantId);
-      if (path.startsWith("/api/bot/chat")) return await handleMeriChat(request, env, tenantId);
+      if (path.startsWith("/api/bot/chat")) return await handleBotChat(request, env, tenantId);
     } catch (e) {
       return securityHeaders(Response.json({ error: "Internal error", message: e.message }, { status: 500 }));
     }

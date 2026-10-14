@@ -52,7 +52,7 @@ async function loadKB(env) {
   }
 }
 
-export async function handlePublicMeriChat(request, env) {
+export async function handlePublicBotChat(request, env) {
   if (request.method !== "POST") {
     return Response.json({ error: "POST required" }, { status: 405 });
   }

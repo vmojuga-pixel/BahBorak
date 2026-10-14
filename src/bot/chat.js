@@ -1,6 +1,6 @@
 import { askMeri } from "./advisor.js";
 
-export async function handleMeriChat(request, env, tenantId) {
+export async function handleBotChat(request, env, tenantId) {
   if (request.method !== "POST") {
     return Response.json({ error: "POST required" }, { status: 405 });
   }

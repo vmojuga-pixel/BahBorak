@@ -1,71 +1,42 @@
 # Architecture
 
-## Data Flow — Data Sovereignty by Design
-
-    [ Legacy Machines / PLCs / Sensors ]
-                │
-                ▼
-    [ BahBorak Edge Gateway ]  (on-premise)
-       • Reads machine data via industrial protocols
-       • Stores RAW readings in local SQLite (30-day rolling window)
-       • Computes hourly aggregates locally
-       • Sends ONLY aggregates to cloud
-                │ HTTPS (aggregates + alerts + commands)
-                ▼
-    [ BahBorak Cloud ]
-       • Receives hourly aggregates, not raw readings
-       • Stores: machines, rules, alerts, commands, aggregates
-       • Never receives raw telemetry
-
-**Guarantee:** Raw machine data never leaves the factory by default. The cloud
-sees hourly averages, min/max, sample counts, alerts, and commands — never
-individual sensor readings.
-
 ## Layers
 
-### 1. Edge Gateway (On-Premise)
-- Raspberry Pi 4 / Mini-PC / Industrial PC
-- Protocol adapters for industrial equipment
-- Local SQLite:
-  - `readings` — raw samples, rolling 30-day retention
-  - `queue` — offline buffer for aggregates when cloud is unreachable
-- Computes aggregates every 5 minutes
-- TLS-only egress
-
-### 2. BahBorak Cloud
-- Multi-tenant (one isolated environment per factory)
-- Deterministic rules engine (no black box in control loops)
+### 1. Cloud Layer
+- Multi-tenant (one isolated workspace per business)
+- Deterministic rules engine
 - Immutable audit log
-- Advisory AI (never controls machines)
+- Advisory AI (Bot — never sends without approval)
 
-## Data Schema (Cloud)
+### 2. WhatsApp Integration Layer (roadmap)
+- WhatsApp Business API connection
+- Message ingestion
+- Reply dispatch
+- Number verification
 
-| Table | Purpose |
-|-------|---------|
-| `tenants` | Factory accounts |
-| `users` | Team members per tenant |
-| `sessions` | Auth sessions |
-| `api_keys` | Machine auth (scoped) |
-| `machines` | Equipment catalog |
-| `rules` | Deterministic rules |
-| `rule_templates` | Marketplace |
-| `telemetry_agg` | Hourly aggregates only |
-| `alerts` | Alert events |
-| `commands` | Outbound commands |
-| `audit_auth` | Auth events |
-| `public_kb` | Public Bot knowledge base |
+### 3. Dashboard Layer
+- Conversation view
+- Analytics
+- Rule editor
+- Team management
 
-## Data Schema (On-Premise Only)
+## Data Schema
 
 | Table | Purpose |
 |-------|---------|
-| `readings` | Raw sensor samples (30-day rolling) |
-| `queue` | Offline aggregate buffer |
-
-## Multi-Tenancy
-Each tenant has isolated rules, data, users, and audit trail.
+| tenants | Business accounts |
+| users | Team members |
+| sessions | Auth sessions |
+| api_keys | Integration keys |
+| rules | Deterministic reply rules |
+| rule_templates | Marketplace |
+| conversations | Customer threads |
+| messages | Individual messages |
+| alerts | System events |
+| audit_log | Auth and action events |
 
 ## Security
+
 - Password: PBKDF2-SHA256, 100k iterations, salt
 - Session: HttpOnly, Secure, SameSite=Strict cookie
 - CSRF: token on all state-changing requests
@@ -74,6 +45,7 @@ Each tenant has isolated rules, data, users, and audit trail.
 - Secrets: environment only, never in code
 
 ## Compliance
-- EU AI Act (High-Risk Annex III): human oversight, transparency, record-keeping
-- GDPR: data minimisation, on-prem default, no PII in telemetry
-- IEC 62443: network segmentation, TLS-only egress
+
+- PDPA (Malaysia): data minimisation, tenant isolation
+- WhatsApp Business Policy: opt-in, no spam
+- GDPR-ready architecture (for future expansion)

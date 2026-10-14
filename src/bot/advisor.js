@@ -1,4 +1,4 @@
-import { MERI_SYSTEM_PROMPT } from "./prompts.js";
+import { BOT_SYSTEM_PROMPT } from "./prompts.js";
 
 export async function askMeri(env, summary, question) {
   if (!env.AI) {
@@ -13,7 +13,7 @@ export async function askMeri(env, summary, question) {
 
   const response = await env.AI.run("@cf/meta/llama-3.2-3b-instruct", {
     messages: [
-      { role: "system", content: MERI_SYSTEM_PROMPT },
+      { role: "system", content: BOT_SYSTEM_PROMPT },
       { role: "user", content: `Tenant data:\n${context}\n\nQuestion: ${question}` },
     ],
     max_tokens: 400,

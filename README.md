@@ -1,67 +1,46 @@
 # BahBorak
 
-Deterministic rules engine for legacy industrial systems.
-Edge-native. Multi-tenant. EU AI Act ready.
+> WhatsApp business automation for Malaysian SMEs.
+> AI auto-reply, multi-tenant, edge-native.
 
-**Bot** is the chatbox — AI advisor. Bot never controls machines.
+## What is BahBorak?
 
-Related: **bahborak-edge** (Python gateway), Picksy (affiliate), BorneoMe (travel).
+BahBorak lets small businesses in Malaysia automate their WhatsApp replies. Connect a number, set rules, and let AI handle common questions — order status, pricing, hours, appointments.
+
+Runs on edge infrastructure. Multi-tenant. Data stays with the business.
+
+Bot is the AI assistant — replies to customers, suggests answers, never acts without human approval.
+
+## Core Principles
+
+1. Rules control. AI advises. Humans decide.
+2. Customer data stays with the business.
+3. No black box in customer replies.
+4. Works with WhatsApp Business API.
 
 ## Features
 
-- Auth: signup, login, verify, session, CSRF, rate limit, lockout
-- 2FA: TOTP + recovery codes
-- Team: invites, roles (owner/admin/viewer)
-- Onboarding: 3-step wizard
-- Machines: CRUD, per-tenant
-- Rules: CRUD + marketplace templates
-- API Keys: scoped (ingest:write/read)
-- Realtime: WebSocket broadcast on aggregate ingest
-- Audit log: D1 + R2 (immutable)
-- Billing: plans, usage limits, Stripe checkout
-- Email: Brevo + Mailtrap fallback
-- Edge Gateway: Python (Modbus/OPC-UA/Serial)
-- UI: Tailwind (landing, dashboard, Bot, onboarding, auth)
-- Compliance: EU AI Act (audit, guardrails, explainability)
+- WhatsApp auto-reply (rules + AI)
+- Multi-tenant (one isolated workspace per business)
+- Rule marketplace (templates for common use cases)
+- AI assistant (Bot) — suggests replies, never sends without approval
+- Dashboard (conversations, analytics, templates)
+- Audit log (immutable)
+- Team invites (owner / admin / agent)
 
-## Documentation
+## Quick Start
 
-- `BLUEPRINT.md` — source of truth: architecture, data flow, features, roadmap
-- `ARCHITECTURE.md` — layers, schemas, security
-- `HANDOVER.md` — deploy, migrations, failure modes
-- `CODING_BOOK.md` — lessons learned, 100+ entries
-- `COMPLIANCE.md` — EU AI Act, GDPR, IEC 62443
+    npm install
+    npx wrangler login
+    npx wrangler d1 create bahborak-db
+    npx wrangler kv:namespace create BAHBORAK_KV
+    npx wrangler r2 bucket create bahborak-audit
+    npx wrangler d1 migrations apply bahborak-db
+    npx wrangler deploy
 
-## Endpoints
+## Live
 
-Public:
-- `GET /` — landing
-- `GET /signup`, `GET /login`, `GET /verify`, `GET /accept`
-- `POST /api/auth/signup`, `/login`, `/logout`
-- `GET /api/auth/verify`, `/me`
-- `POST /api/auth/accept`
-- `POST /api/stripe/webhook`
-- `GET /health`
-
-Authed:
-- `GET /dashboard`, `/bot`, `/onboarding`
-- `GET/POST/PATCH/DELETE /api/machines`
-- `GET/POST/PATCH/DELETE /api/rules`
-- `GET/POST/DELETE /api/keys`
-- `GET/POST/DELETE /api/invites`
-- `GET/POST /api/2fa/*`
-- `GET /api/billing/plans`, `/current`; `POST /select`, `/checkout`
-- `GET /api/templates`; `POST /api/templates/:id/install`
-- `POST /api/ingest` (via API key, no session)
-- `POST /api/commands`
-- `GET /api/dashboard`
-- `POST /api/bot/chat`
-- `WS /api/ws`
-- `POST /api/kill`
-
-## Deploy
-
-Cloudflare Workers. Auto via wrangler or GitHub Actions (needs `CF_API_TOKEN`, `CF_ACCOUNT_ID` secrets).
+https://bahborak-api.vmojuga.workers.dev
 
 ## License
 

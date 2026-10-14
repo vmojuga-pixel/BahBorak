@@ -36,7 +36,7 @@ INSERT OR IGNORE INTO public_kb (id, topic, question, answer, tags, priority) VA
 'integration,legacy', 85),
 
 ('kb_sectors', 'sectors', 'Which industries does BahBorak serve?',
-'Manufacturing, food processing, chemicals, automotive supply, metalworking, textiles, energy, and logistics. Any operation with industrial equipment that needs modernisation without full replacement.',
+'Manufacturing, food processing, chemicals, automotive supply, metalworking, textiles, energy, and logistics. Any operation with WhatsApp business that needs modernisation without full replacement.',
 'sectors,industries', 80),
 
 ('kb_safety', 'safety', 'Is this safe?',

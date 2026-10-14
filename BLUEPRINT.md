@@ -1,244 +1,110 @@
 # BahBorak — System Blueprint
 
-**Version:** 1.0 · **Status:** Live prototype · **Last updated:** 2026-10-13
+**Version:** 1.0 · **Status:** Live prototype · **Last updated:** 2026-10-14
 
-This is the source of truth. If code and this document disagree, this document wins.
+Source of truth. If code and this document disagree, this document wins.
 
 ---
 
 ## 1. What BahBorak Is
 
-An enterprise AI operations platform for industrial environments.
+A WhatsApp business automation platform for Malaysian SMEs.
 
-Mission: bring modern automation, energy intelligence, and operational insight to factories running legacy equipment — without requiring rip-and-replace.
+Mission: let small businesses automate customer replies on WhatsApp without hiring support staff.
 
-Target market: European Mittelstand, expanding globally.
+Target market: Malaysian SMEs — F&B, retail, services, clinics, salons, online sellers.
 
-Positioning: intelligence layer on top of existing production systems.
+Positioning: WhatsApp automation layer, not another chatbot.
 
 ---
 
 ## 2. Core Principles
 
 1. Rules control. AI advises. Humans decide.
-2. Raw machine data never leaves the factory by default.
-3. Compliance is a design principle, not an afterthought.
-4. No black box in safety-critical paths.
-5. Multi-tenant isolation by default.
+2. Customer data stays with the business.
+3. No black box in customer replies.
+4. Works with WhatsApp Business API.
 
 ---
 
 ## 3. High-Level Architecture
 
-    [ Legacy Industrial Equipment ]
-                │
-                ▼
-    [ Edge Gateway — on-premise ]
-       • Reads machine data
-       • Stores raw readings locally (30-day rolling)
-       • Computes hourly aggregates
-       • Sends ONLY aggregates + events to cloud
-                │ HTTPS, TLS-only
-                ▼
-    [ BahBorak Cloud — multi-tenant platform ]
-       • Rules engine (deterministic)
-       • Tenant isolation (per-factory)
-       • Audit log (immutable)
-       • AI advisor (advisory only)
-       • Billing, auth, team, onboarding
+    [ WhatsApp Business API ]
+                |
+                v
+    [ BahBorak Cloud — multi-tenant ]
+       - Rules engine (deterministic)
+       - Bot (AI advisor)
+       - Tenant isolation
+       - Audit log
+       - Billing, auth, team
 
 ---
 
-## 4. Data Sovereignty Contract
+## 4. Features (Current)
 
-| Layer | Location | Content |
-|-------|----------|---------|
-| Raw sensor readings | On-premise gateway | Every sample, 30-day rolling |
-| Hourly aggregates | Cloud | avg/max/min per metric, sample count |
-| Alerts | Cloud | Rule-triggered events |
-| Commands | Cloud | Outbound actions (audit) |
-| Auth & user data | Cloud | Users, sessions, audit |
-| Machine catalog | Cloud | Name, brand, model, protocol |
-
-**Guarantee:** Cloud never receives individual sensor readings. Only aggregated summaries, events, and commands. Air-gapped operation supported.
-
----
-
-## 5. Components
-
-### 5.1 Cloud Platform (bahborak-api)
-
-Responsibilities:
-- Authentication and session management
-- Tenant isolation and routing
-- Deterministic rules evaluation
-- Alert generation and delivery
-- Command dispatch and audit
-- AI advisor (advisory only)
-- Billing and plan enforcement
-- Public knowledge base for Bot
-- Realtime broadcast to dashboards
-
-### 5.2 Edge Gateway (bahborak-edge)
-
-Responsibilities:
-- Read machine data via industrial protocols
-- Store raw readings locally
-- Compute hourly aggregates
-- Send aggregates to cloud
-- Receive commands and apply them
-- Buffer aggregates when offline (store-and-forward)
-
-### 5.3 Bot (AI Advisor)
-
-Two modes:
-
-| Mode | Location | Data Access | Purpose |
-|------|----------|-------------|---------|
-| Enterprise | Inside dashboard (auth) | Tenant-scoped aggregates | Help managers understand operations |
-| Public | Landing page | Public KB only | Explain BahBorak to visitors |
-
-Neither mode can send commands. Neither mode can change rules.
+- Auth: signup, login, 2FA, session, CSRF, rate limit
+- Team: invites with roles
+- Onboarding: 3-step wizard
+- WhatsApp: connection setup, number verification
+- Rules: CRUD + marketplace templates
+- Bot: AI reply suggestions
+- Dashboard: conversations, analytics
+- Billing: plans, usage limits
+- Audit: immutable log
 
 ---
 
-## 6. Features (Current)
+## 5. Not Yet Built
 
-### Auth & Security
-- Email + password signup, verify, login, logout
-- Session cookies (HttpOnly, Secure, SameSite=Strict)
-- CSRF protection on all state-changing requests
-- Rate limiting (per-IP, per-tenant)
-- Account lockout after failed attempts
-- 2FA (TOTP + recovery codes)
-- Audit log for all auth events
-
-### Tenant Management
-- Multi-tenant isolation (per-factory environment)
-- Team invites with roles (owner / admin / viewer)
-- Onboarding wizard (3 steps)
-
-### Operations
-- Machine catalog (CRUD)
-- Rules engine (CRUD + marketplace templates)
-- Alert generation and dashboard display
-- Command dispatch with audit
-- Realtime updates to dashboard
-- Hourly aggregate storage
-
-### Billing
-- Plan tiers (Free / Starter / Growth / Enterprise)
-- Usage limits enforced per plan
-- Stripe checkout integration
-
-### Compliance
-- Immutable audit log
-- Human oversight on all decisions
-- EU AI Act aligned (High-Risk Annex III)
-- GDPR: on-prem default, no PII in telemetry
-- IEC 62443: TLS-only egress, network segmentation
+- WhatsApp Business API integration (in progress)
+- Real-time chat UI
+- Multi-language replies (BM, English, Chinese, Tamil)
+- Payment links in replies
+- Broadcast messaging
+- Template marketplace for local businesses
 
 ---
 
-## 7. Not Yet Built
-
-| Item | Priority | Notes |
-|------|----------|-------|
-| Rules editor UI (visual) | Medium | Currently form-based |
-| Historical analytics dashboard | Medium | Aggregates stored, no charts yet |
-| Mobile app | Low | Web is responsive |
-| Multi-language (DE/FR/IT) | High | Required for European expansion |
-| SAP / MES connectors | High | Listed in pitch, not implemented |
-| Custom protocol adapters (PROFINET native) | High | Currently via OPC UA bridge |
-| White-label for partners | Low | Post-revenue decision |
-| SOC 2 / ISO 27001 audit | Medium | Required for enterprise deals |
-| On-premise cloud deployment option | Medium | For defence/pharma |
-
----
-
-## 8. Tech Stack (Corporate-Safe Description)
+## 6. Tech Stack
 
 | Layer | Description |
 |-------|-------------|
-| Cloud runtime | Edge-native serverless platform |
-| Database | Managed SQLite (per-tenant isolation) |
-| Object storage | Immutable audit log store |
+| Cloud runtime | Edge-native serverless |
+| Database | Managed SQLite per tenant |
+| Object storage | Immutable audit log |
 | Key-value store | Session, rate limit, config |
-| AI | Edge-hosted inference (no data retention by provider) |
-| Gateway | Python 3.10+, SQLite, runs on Raspberry Pi or industrial PC |
-| Protocols | Modbus, OPC-UA, Serial (extensible) |
-
-Technical vendor names are intentionally omitted from external documents. See internal deployment docs for specifics.
+| AI | Edge-hosted inference |
 
 ---
 
-## 9. Deployment Model
+## 7. Commercial Model
 
-| Phase | Duration | Action |
-|-------|----------|--------|
-| Discovery | Week 1 | Site visit, machine inventory, protocol mapping |
-| Edge Install | Week 2 | Gateway on-premise, read-only |
-| Rules Config | Week 3 | Workshop, thresholds, alerts |
-| Go Live | Week 4 | Closed-loop commands enabled (kill switch active) |
-| Optimisation | Ongoing | Quarterly reviews, new rules |
-
-Safety: Weeks 1–3 strictly read-only.
-
----
-
-## 10. Commercial Model
-
-| Plan | Price | Machines | Users |
+| Plan | Price | Messages | Users |
 |------|-------|----------|-------|
-| Free | €0 | 3 | 2 |
-| Starter | €49/mo | 25 | 10 |
-| Growth | €199/mo | 200 | 50 |
-| Enterprise | €999/mo | Unlimited | Unlimited |
-
-Deployment: €5,000–€15,000 one-time per site.
+| Free | RM0 | 100/mo | 1 |
+| Starter | RM49/mo | 1,000/mo | 3 |
+| Growth | RM199/mo | 10,000/mo | 10 |
+| Business | RM499/mo | Unlimited | 25 |
 
 ---
 
-## 11. Repos
+## 8. Repo
 
-| Repo | Purpose |
-|------|---------|
-| `vmojuga-pixel/bahborak` | Cloud platform |
-| `vmojuga-pixel/bahborak-edge` | On-premise gateway |
+vmojuga-pixel/BahBorak
 
 ---
 
-## 12. Live
+## 9. Live
 
-- Cloud: bahborak-api.vmojuga.workers.dev
-- Landing: bahborak-api.vmojuga.workers.dev/
-- Dashboard: bahborak-api.vmojuga.workers.dev/dashboard
-- Public Bot: landing page, section "Ask Bot"
-- Enterprise Bot: inside dashboard
+https://bahborak-api.vmojuga.workers.dev
 
 ---
 
-## 13. Honest Status (2026-10-13)
+## 10. Honest Status
 
-**Working:**
-- Full auth stack
-- Multi-tenant platform
-- Rules engine (functional, deterministic)
-- Machines + team + billing + invites
-- Bot (both modes)
-- Edge gateway (Modbus, OPC-UA, Serial)
-- Aggregate-only data flow
+Working: auth, multi-tenant, rules engine, dashboard, bot, billing, audit
 
-**Prototype-level:**
-- Dashboard is functional but minimal
-- Rules editor is form-based, not visual
-- No historical charts yet
-- No multi-language yet
+Prototype-level: WhatsApp API integration, chat UI, multi-language
 
-**Not started:**
-- SAP / MES integration
-- SOC 2 / ISO 27001 certification
-- Enterprise sales motion
-- Real customer pilot
-
-**Ready for:** EWOR application and demo. Not ready for: enterprise procurement.
+Not started: payment links, broadcast, template marketplace
