@@ -1,1 +1,0 @@
-This folder contains the built output assets for the worker "bahborak-api" generated at 2026-10-14T12:37:20.940Z.
