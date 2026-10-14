@@ -1,0 +1,51 @@
+name = "bahborak-api"
+main = "src/index.js"
+compatibility_date = "2026-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+ENV = "production"
+APP_NAME = "BahBorak"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "bahborak-db"
+database_id = "ffa9d17b-e4a2-48af-af96-25885d919991"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "da269b34946d4998a92f466536d34454"
+
+[[r2_buckets]]
+binding = "AUDIT"
+bucket_name = "bahborak-audit"
+
+[[durable_objects.bindings]]
+name = "TENANT"
+class_name = "Tenant"
+
+[[migrations]]
+tag = "v2"
+new_sqlite_classes = ["Tenant"]
+
+[observability]
+enabled = true
+head_sampling_rate = 1
+redact_query_string = false
+
+[observability.logs]
+enabled = true
+head_sampling_rate = 1
+invocation_logs = true
+persist = true
+
+[observability.traces]
+enabled = true
+head_sampling_rate = 1
+persist = true
+
+[observability.issue_detection]
+enabled = true
+
+[ai]
+binding = "AI"

@@ -1,0 +1,102 @@
+export const MERI_HTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bot — BahBorak</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, system-ui, sans-serif; background: #0a0a0a; color: #e5e5e5; height: 100vh; display: flex; flex-direction: column; }
+  header { padding: 16px 24px; border-bottom: 1px solid #1f1f1f; display: flex; align-items: center; gap: 12px; }
+  .logo { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #737373; }
+  .name { font-size: 16px; font-weight: 600; }
+  .dot { width: 6px; height: 6px; background: #22c55e; border-radius: 50%; margin-left: auto; }
+  main { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 16px; max-width: 800px; width: 100%; margin: 0 auto; }
+  .msg { padding: 12px 16px; border-radius: 12px; line-height: 1.5; font-size: 14px; max-width: 85%; white-space: pre-wrap; }
+  .user { background: #1d4ed8; align-self: flex-end; }
+  .bot { background: #171717; border: 1px solid #262626; align-self: flex-start; }
+  .meta { font-size: 11px; color: #525252; margin-top: 6px; }
+  form { padding: 16px 24px; border-top: 1px solid #1f1f1f; display: flex; gap: 8px; max-width: 800px; width: 100%; margin: 0 auto; }
+  input[type=text] { flex: 1; padding: 12px 16px; background: #171717; border: 1px solid #262626; border-radius: 8px; color: #e5e5e5; font-size: 14px; outline: none; }
+  input[type=text]:focus { border-color: #404040; }
+  button { padding: 12px 20px; background: #e5e5e5; color: #0a0a0a; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px; }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  .tenant { font-size: 12px; color: #525252; padding: 8px 24px; border-bottom: 1px solid #1f1f1f; }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">BahBorak</div>
+  <div class="name">Bot</div>
+  <div class="dot"></div>
+</header>
+<div class="tenant">Tenant: <span id="tenant"></span></div>
+<main id="chat">
+  <div class="msg bot">Hi. I am Bot. I can summarize machine performance, alerts, and recommendations. I never control machines. Ask me anything.</div>
+</main>
+<form id="f">
+  <input type="text" id="q" placeholder="Ask Bot..." autocomplete="off" required>
+  <button type="submit" id="b">Send</button>
+</form>
+<script>
+  let tenant = null;
+  let csrf = sessionStorage.getItem('csrf') || '';
+  (async () => {
+    try {
+      const r = await fetch('/api/auth/me', { headers: { 'X-CSRF-Token': csrf } });
+      if (r.status === 401 || r.status === 403) { location.href = '/login'; return; }
+      const j = await r.json();
+      tenant = j.user.tenant_id;
+      csrf = j.csrf_token;
+      sessionStorage.setItem('csrf', csrf);
+      document.getElementById('tenant').textContent = (j.tenant && j.tenant.factory_name) || tenant;
+    } catch (e) { location.href = '/login'; }
+  })();
+  const chat = document.getElementById('chat');
+  const f = document.getElementById('f');
+  const q = document.getElementById('q');
+  const b = document.getElementById('b');
+
+  function add(text, cls) {
+    const d = document.createElement('div');
+    d.className = 'msg ' + cls;
+    d.textContent = text;
+    chat.appendChild(d);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  f.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = q.value.trim();
+    if (!msg) return;
+    add(msg, 'user');
+    q.value = '';
+    b.disabled = true;
+    add('...', 'bot');
+    const loading = chat.lastChild;
+    try {
+      const r = await fetch('/api/bot/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Tenant-ID': tenant, 'X-CSRF-Token': csrf },
+        body: JSON.stringify({ message: msg })
+      });
+      const j = await r.json();
+      loading.textContent = j.reply || j.error || '(no response)';
+      if (j.advisory_only) {
+        const m = document.createElement('div');
+        m.className = 'meta';
+        m.textContent = 'advisory only · bot';
+        loading.appendChild(m);
+      }
+    } catch (err) {
+      loading.textContent = 'Error: ' + err.message;
+    } finally {
+      b.disabled = false;
+      q.focus();
+    }
+  });
+
+  q.focus();
+</script>
+</body>
+</html>`;
