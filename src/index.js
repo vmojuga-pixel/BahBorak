@@ -1,3 +1,6 @@
+import { handleMessaging } from "./api/messaging.js";
+import { ChatRoom } from "./chat-room.js";
+export { ChatRoom };
 import { CONFIG } from "./config.js";
 import { handleIngest } from "./api/ingest.js";
 import { handleCommands } from "./api/commands.js";
@@ -29,6 +32,26 @@ const html = (body) => new Response(body, { headers: { "Content-Type": "text/htm
 
 export default {
   async fetch(request, env, ctx) {
+
+    const wsUrl = new URL(request.url);
+    if (wsUrl.pathname.startsWith("/ws/")) {
+      const roomId = wsUrl.pathname.split("/")[2];
+      const id = env.CHAT_ROOM.idFromName(roomId);
+      const stub = env.CHAT_ROOM.get(id);
+      const doUrl = new URL(request.url);
+      doUrl.pathname = "/ws";
+      return stub.fetch(new Request(doUrl, request));
+    }
+
+
+    if (wsUrl.pathname.startsWith("/api/conversations")) {
+      const msgRes = await handleMessaging(request, env, wsUrl);
+      if (msgRes) return msgRes;
+    }
+
+
+    
+
     const url = new URL(request.url);
     const path = url.pathname;
 

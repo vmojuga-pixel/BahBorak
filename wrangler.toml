@@ -33,3 +33,13 @@ enabled = true
 
 [ai]
 binding = "AI"
+
+# --- BAHBORAK MESSENGER (BARU) ---
+
+[[durable_objects.bindings]]
+name = "CHAT_ROOM"
+class_name = "ChatRoom"
+
+[[migrations]]
+tag = "v2_messenger"
+new_sqlite_classes = ["ChatRoom"]
