@@ -43,3 +43,7 @@ class_name = "ChatRoom"
 [[migrations]]
 tag = "v2_messenger"
 new_sqlite_classes = ["ChatRoom"]
+
+[assets]
+directory = "./src/public"
+binding = "ASSETS"
