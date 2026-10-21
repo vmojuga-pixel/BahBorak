@@ -11,7 +11,6 @@ import { handleHealth } from "./api/health.js";
 import { handleBotChat } from "./bot/chat.js";
 import { handlePublicBotChat } from "./bot/public.js";
 import { handleKillSwitch } from "./guardrail/kill-switch.js";
-import { handleSignup, handleLogin, handleLogout, handleVerify, handleMe } from "./api/auth.js";
 import { handleMachinesList, handleMachineCreate, handleMachineDelete } from "./api/machines.js";
 import { handleApiKeyList, handleApiKeyCreate, handleApiKeyRevoke, verifyApiKey } from "./api/apikeys.js";
 import { handleTenantMe } from "./api/tenants.js";
@@ -36,9 +35,11 @@ export default {
   async fetch(request, env, ctx) {
 
     if (request.url.includes("/api/auth/")) {
-      const authRes = await handleAuth(request, env);
-      if (authRes) return authRes;
+      return await handleAuth(request, env);
     }
+
+
+    
     if (request.url.includes("/api/agent")) {
       const agentRes = await handleAgent(request, env);
       if (agentRes) return agentRes;
