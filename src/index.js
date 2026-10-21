@@ -1,3 +1,4 @@
+import { handleAgent } from "./api/agent.js";
 import { handleMessaging } from "./api/messaging.js";
 import { ChatRoom } from "./chat-room.js";
 export { ChatRoom };
@@ -32,6 +33,12 @@ const html = (body) => new Response(body, { headers: { "Content-Type": "text/htm
 
 export default {
   async fetch(request, env, ctx) {
+
+    if (request.url.includes("/api/agent")) {
+      const agentRes = await handleAgent(request, env);
+      if (agentRes) return agentRes;
+    }
+  
 
     const isApi = request.url.includes("/api/");
     const isWs = request.url.includes("/ws/");
