@@ -33,6 +33,13 @@ const html = (body) => new Response(body, { headers: { "Content-Type": "text/htm
 export default {
   async fetch(request, env, ctx) {
 
+    const isApi = request.url.includes("/api/");
+    const isWs = request.url.includes("/ws/");
+    if (request.method === "GET" && !isApi && !isWs && env.ASSETS) {
+      return env.ASSETS.fetch(request);
+    }
+
+
     const wsUrl = new URL(request.url);
     if (wsUrl.pathname.startsWith("/ws/")) {
       const roomId = wsUrl.pathname.split("/")[2];
