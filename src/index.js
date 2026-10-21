@@ -1,3 +1,5 @@
+import { handleAuth } from "./api/auth.js";
+import { handleAgent } from "./api/agent.js";
 import { handleAgent } from "./api/agent.js";
 import { handleMessaging } from "./api/messaging.js";
 import { ChatRoom } from "./chat-room.js";
@@ -33,6 +35,16 @@ const html = (body) => new Response(body, { headers: { "Content-Type": "text/htm
 
 export default {
   async fetch(request, env, ctx) {
+
+    if (request.url.includes("/api/auth/")) {
+      const authRes = await handleAuth(request, env);
+      if (authRes) return authRes;
+    }
+    if (request.url.includes("/api/agent")) {
+      const agentRes = await handleAgent(request, env);
+      if (agentRes) return agentRes;
+    }
+  
 
     if (request.url.includes("/api/agent")) {
       const agentRes = await handleAgent(request, env);
