@@ -46,7 +46,12 @@
         <input type="password" id="password" placeholder="••••••••" class="w-full bg-[#111b21] border border-white/10 p-3 rounded-xl outline-none focus:border-teal-400 text-white" required>
       </div>
       
-      <div id="error-msg" class="text-red-400 text-sm hidden"></div>
+      
+      <div class="flex items-start gap-2 mt-2">
+        <input type="checkbox" id="terms" required class="mt-1 accent-teal-500">
+        <label for="terms" class="text-xs text-gray-400 leading-tight">Saya bersetuju dengan <a href="#" class="text-teal-400 hover:underline">Terma Perkhidmatan</a> dan <a href="#" class="text-teal-400 hover:underline">Dasar Privasi</a>.</label>
+      </div>
+<div id="error-msg" class="text-red-400 text-sm hidden"></div>
 
       <button type="submit" id="auth-btn" class="bg-gradient-to-r from-blue-600 to-teal-400 text-white p-3.5 rounded-xl font-bold mt-2 shadow-lg hover:opacity-90 transition">Log Masuk</button>
     </form>
