@@ -1,6 +1,5 @@
 import { handleAuth } from "./api/auth.js";
 import { handleAgent } from "./api/agent.js";
-import { handleAgent } from "./api/agent.js";
 import { handleMessaging } from "./api/messaging.js";
 import { ChatRoom } from "./chat-room.js";
 export { ChatRoom };
