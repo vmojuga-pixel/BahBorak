@@ -1,5 +1,5 @@
 // src/api/whatsapp.js
-// Minimal WhatsApp webhook + outbox dispatch stubs
+// Minimal BahBorak webhook + outbox dispatch stubs
 // - webhook verification (GET challenge)
 // - inbound webhook event processing (POST)
 // - outbox table enqueueing
@@ -7,7 +7,7 @@
 
 import { randomUUID } from "crypto";
 
-export async function handleWhatsAppWebhook(request, env) {
+export async function handleBahBorakWebhook(request, env) {
   // GET verification (Meta-style)
   if (request.method === "GET") {
     const url = new URL(request.url);
@@ -90,7 +90,7 @@ async function generateAutoReply(env, tenantId, incomingText, from) {
     const summary = { tenant: tenantId, tenantName: summaryRows?.name || null };
     const res = await env.AI.run("@cf/meta/llama-4-scout-17b-16e-instruct", {
       messages: [
-        { role: "system", content: `You are a concise WhatsApp assistant for tenant ${summary.tenantName || tenantId}.` },
+        { role: "system", content: `You are a concise BahBorak assistant for tenant ${summary.tenantName || tenantId}.` },
         { role: "user", content: incomingText },
       ],
       max_tokens: 200,
@@ -108,7 +108,7 @@ async function enqueueOutbox(env, tenantId, toNumber, body) {
   return id;
 }
 
-export async function handleWhatsAppDispatch(request, env, ctx) {
+export async function handleBahBorakDispatch(request, env, ctx) {
   // Dispatch queued messages (admin/internal). Auth: header X-INTERNAL-TOKEN === env.INTERNAL_DISPATCH_TOKEN OR GitHub Actions/DO cron
   const token = request.headers.get("X-INTERNAL-TOKEN");
   if (!token || token !== env.INTERNAL_DISPATCH_TOKEN) {
@@ -148,7 +148,7 @@ export async function handleWhatsAppDispatch(request, env, ctx) {
 }
 
 async function trySend(env, item) {
-  // If WhatsApp API not configured, return false so items remain queued
+  // If BahBorak API not configured, return false so items remain queued
   if (!env.WHATSAPP_API_URL || !env.WHATSAPP_API_TOKEN) return false;
 
   try {

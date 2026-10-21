@@ -3,7 +3,7 @@ export const LANDING_HTML = `<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>BahBorak — WhatsApp Automation for Malaysian Business</title>
+<title>BahBorak — BahBorak Automation for Malaysian Business</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
 tailwind.config = { darkMode: 'class', theme: { extend: {
@@ -43,10 +43,10 @@ tailwind.config = { darkMode: 'class', theme: { extend: {
       Built for Malaysian SMEs
     </div>
     <h1 class="text-5xl md:text-7xl font-semibold tracking-tight leading-[1.05] max-w-4xl mb-8">
-      Your WhatsApp. <span class="text-neutral-500">Automated.</span>
+      Your BahBorak. <span class="text-neutral-500">Automated.</span>
     </h1>
     <p class="text-lg md:text-xl text-neutral-400 max-w-2xl leading-relaxed mb-12">
-      BahBorak handles customer questions on WhatsApp — order status, pricing, hours, bookings. Set your rules. Bot replies. You approve what matters.
+      BahBorak handles customer questions on BahBorak — order status, pricing, hours, bookings. Set your rules. Bot replies. You approve what matters.
     </p>
     <div class="flex flex-wrap items-center gap-4">
       <a href="/signup" class="px-6 py-3.5 rounded-lg bg-white text-black font-medium text-sm hover:bg-neutral-200 transition">Start free</a>

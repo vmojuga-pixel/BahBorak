@@ -24,7 +24,7 @@ import { DASHBOARD_HTML } from "./web/dashboard.js";
 import { SIGNUP_HTML, LOGIN_HTML, VERIFY_HTML } from "./web/auth.js";
 import { BOT_HTML } from "./bot/ui.js";
 import { ONBOARDING_HTML } from "./web/onboarding.js";
-import { handleWhatsAppWebhook, handleWhatsAppDispatch } from "./api/whatsapp.js";
+import { handleBahBorakWebhook, handleBahBorakDispatch } from "./api/whatsapp.js";
 
 export { Tenant } from "./tenant/durable-object.js";
 
@@ -33,11 +33,7 @@ const html = (body) => new Response(body, { headers: { "Content-Type": "text/htm
 export default {
   async fetch(request, env, ctx) {
 
-    const isApi = request.url.includes("/api/");
-    const isWs = request.url.includes("/ws/");
-    if (request.method === "GET" && !isApi && !isWs && env.ASSETS) {
-      return env.ASSETS.fetch(request);
-    }
+    
 
 
     const wsUrl = new URL(request.url);
@@ -75,15 +71,15 @@ export default {
     // --- Public Bot (no auth) ---
     if (path === "/api/bot/public" && request.method === "POST") return handlePublicBotChat(request, env);
 
-    // --- WhatsApp webhook & dispatch (stubs) ---
+    // --- BahBorak webhook & dispatch (stubs) ---
     if (path === "/api/whatsapp/webhook") {
-      // Meta/WhatsApp webhook verification uses GET for challenge and POST for events
-      if (request.method === "GET" || request.method === "POST") return handleWhatsAppWebhook(request, env);
+      // Meta/BahBorak webhook verification uses GET for challenge and POST for events
+      if (request.method === "GET" || request.method === "POST") return handleBahBorakWebhook(request, env);
     }
     if (path === "/api/whatsapp/dispatch" && request.method === "POST") {
       // Internal dispatch endpoint: requires an internal token or workspace session
       // The handler will allow dispatch when env.INTERNAL_DISPATCH_TOKEN matches header X-INTERNAL-TOKEN
-      return handleWhatsAppDispatch(request, env, ctx);
+      return handleBahBorakDispatch(request, env, ctx);
     }
 
     // --- Public routes ---

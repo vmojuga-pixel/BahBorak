@@ -25,7 +25,7 @@ export const ONBOARDING_HTML = `<!DOCTYPE html>
         <div><label class="block text-xs text-neutral-500 mb-1.5">Industry</label>
         <input name="industry" placeholder="e.g. Automotive" class="w-full px-3.5 py-2.5 bg-ink-900 border border-white/10 rounded-lg text-sm outline-none focus:border-white/30"></div>
         <div><label class="block text-xs text-neutral-500 mb-1.5">Default protocol</label>
-        <input name="whatsapp_number" placeholder="WhatsApp number (e.g. 60123456789)" class="w-full px-3.5 py-2.5 bg-ink-900 border border-white/10 rounded-lg text-sm outline-none focus:border-white/30"></div>
+        <input name="whatsapp_number" placeholder="BahBorak number (e.g. 60123456789)" class="w-full px-3.5 py-2.5 bg-ink-900 border border-white/10 rounded-lg text-sm outline-none focus:border-white/30"></div>
       </div>
     </div>
 

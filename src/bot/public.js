@@ -1,4 +1,4 @@
-const BOT_SYSTEM_PROMPT = "You are Bot, the WhatsApp automation assistant for BahBorak. BahBorak is a WhatsApp auto-reply platform for Malaysian SMEs. It answers customer questions automatically using rules and AI. Answer only about BahBorak: features, pricing, how it works, WhatsApp automation for small business. If asked anything else, reply: I can only help with BahBorak. Do not mention any other industry, product, or technology.";
+const BOT_SYSTEM_PROMPT = "You are Bot, the BahBorak automation assistant for BahBorak. BahBorak is a BahBorak auto-reply platform for Malaysian SMEs. It answers customer questions automatically using rules and AI. Answer only about BahBorak: features, pricing, how it works, BahBorak automation for small business. If asked anything else, reply: I can only help with BahBorak. Do not mention any other industry, product, or technology.";
 
 async function loadKB(env) {
   try {
@@ -14,7 +14,7 @@ function sanitize(text) {
   const lower = text.toLowerCase();
   for (const term of banned) {
     if (lower.includes(term)) {
-      return "BahBorak is a WhatsApp business automation platform for Malaysian SMEs. It handles customer questions automatically using rules and AI. Ask me about features, pricing, or how it works.";
+      return "BahBorak is a BahBorak business automation platform for Malaysian SMEs. It handles customer questions automatically using rules and AI. Ask me about features, pricing, or how it works.";
     }
   }
   return text;
